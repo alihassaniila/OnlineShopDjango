@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User, Province
+from .models import User
 
 
 class MyUserAdmin(UserAdmin):
@@ -37,6 +37,6 @@ class MyUserAdmin(UserAdmin):
     #     return queryset, may_have_duplicates
 
 
-admin.site.register(Province)
+# admin.site.register(Province)
 admin.site.register(User, MyUserAdmin)
 # admin.site.register(Site)

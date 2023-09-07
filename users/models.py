@@ -43,6 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField('staff status', default=False)
     date_joined = models.DateTimeField('date joined', auto_now_add=True)
 
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
@@ -53,32 +54,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
-    avatar = models.ImageField('avatar', blank=True)
-    birthday = models.DateField('birthday', null=True, blank=True)
-    province = models.ForeignKey(verbose_name='province', to='Province', null=True, on_delete=models.SET_NULL)
-
-    class Meta:
-        db_table = 'user_profiles'
-        verbose_name = 'profile'
-        verbose_name_plural = 'profiles'
-
-    # @property
-    # def get_first_name(self):
-    #     return self.user.first_name
-    #
-    # @property
-    # def get_last_name(self):
-    #     return self.user.last_name
-    #
-    # def get_nickname(self):
-    #     return self.nick_name if self.nick_name else self.user.username
-class Province(models.Model):
-    name = models.CharField(max_length=50)
-    is_valid = models.BooleanField(default=True)
-    modified_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name

@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Category, Product ,File
+from .models import Category, Product, File, Cart
 from .serializers import CategorySerializer, ProductSerializer ,FileSerializer
 
 class CategoryListView(APIView):
@@ -58,4 +58,13 @@ class FileDetailView(APIView):
         except File.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = FileSerializer(f, context={'request': request})
+        return Response(serializer.data)
+
+class CartDetailView(APIView):
+    def get(self, request, user_id, pk):
+        try:
+            cart = Cart.objects.get(pk=pk, user_id=user_id)
+        except cart.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = Cart(cart, context={'request': request})
         return Response(serializer.data)

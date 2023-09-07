@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category, Product ,File
-
+from .models import Category, Product ,File, Cart
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,18 +9,24 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
-    # file_type = serializers.SerializerMethodField()
 
     class Meta:
         model = File
         fields = ('id', 'title', 'file')
 
-    # def get_file_type(self, obj):
-    #     return obj.get_file_type_display()
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     categories = CategorySerializer(many=True)
     files = FileSerializer(many=True)
     class Meta:
         model = Product
-        fields = ('id','title', 'description', 'avatar', 'categories','files','url')
+        fields = ('id','title', 'price', 'quantity', 'description', 'avatar', 'categories','files','url')
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ('product', 'user', 'created_at')
+class AddToCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id')
